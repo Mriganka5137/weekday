@@ -1,14 +1,30 @@
 import { useInView } from "react-intersection-observer";
-
 import { useEffect, useState } from "react";
 import { useInfiniteJobs } from "./hooks/useInfiniteJobs";
 import { Job } from "./types";
 import JobCard from "./components/JobCard";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import FilterContainer from "./components/FilterContainer";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
+import {
+  filterByBasePay,
+  filterByEmployees,
+  filterByExperience,
+  filterByRoles,
+  filterByWorkType,
+} from "./lib/utils";
 
 function App() {
-  const [jobs, setJobs] = useState<Job[]>();
+  const [filteredJobs, setFilteredJobs] = useState<Job[]>();
+  const {
+    selectedBasePays,
+    selectedEmployees,
+    selectedExperiences,
+    selectedRoles,
+    selectedWorkTypes,
+  } = useSelector((state: RootState) => state.filters);
+
   const { ref, inView } = useInView();
   const {
     fetchNextPage,
@@ -26,19 +42,49 @@ function App() {
   }, [fetchNextPage, inView]);
 
   useEffect(() => {
-    const list = data?.pages.map((page) => page.data.jdList).flat();
-    setJobs(list);
-  }, [data]);
+    let allJobs = data?.pages.map((page) => page.data.jdList).flat() as Job[];
+
+    // Filter by Base pay
+    if (selectedBasePays && selectedBasePays.length > 0) {
+      allJobs = filterByBasePay(allJobs, selectedBasePays);
+    }
+
+    // Filter by Employees
+    // if (selectedEmployees && selectedEmployees.length > 0) {
+    //   allJobs = filterByEmployees(allJobs, selectedEmployees);
+    // }
+
+    // Filter by Experiences
+    if (selectedExperiences && selectedExperiences.length > 0) {
+      allJobs = filterByExperience(allJobs, selectedExperiences);
+    }
+
+    // Filter by Roles
+    if (selectedRoles && selectedRoles.length > 0) {
+      allJobs = filterByRoles(allJobs, selectedRoles);
+    }
+
+    // Filter by Work Types
+    // if (selectedWorkTypes && selectedWorkTypes.length > 0) {
+    //   allJobs = filterByWorkType(allJobs, selectedWorkTypes);
+    // }
+
+    setFilteredJobs(allJobs);
+  }, [data, selectedBasePays, selectedExperiences, selectedRoles]);
 
   return status === "pending" ? (
-    <div>Loading...</div>
+    <div className=" flex justify-center items-center w-full h-screen">
+      <AiOutlineLoading3Quarters
+        className={` animate-spin text-blue-800 size-6`}
+      />
+    </div>
   ) : status === "error" ? (
     <div>{error.message}</div>
   ) : (
     <div className=" p-5  max-w-screen-2xl mx-auto max-sm:p-3 space-y-10 ">
       <FilterContainer />
       <div className=" grid grid-cols-1 md:grid-cols-2 md:gap-x-8 xl:grid-cols-3 xl:gap-x-20  gap-y-16 justify-items-center  max-sm:gap-y-8 pb-10 ">
-        {jobs?.map((job: Job) => (
+        {filteredJobs?.map((job: Job) => (
           <JobCard job={job} key={job.jdUid} />
         ))}
         {!hasNextPage && !isFetchingNextPage && (

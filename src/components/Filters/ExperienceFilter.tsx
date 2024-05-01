@@ -1,12 +1,16 @@
 import { useState } from "react";
 import SingleSelect from "../shared/SingleSelect";
 import { ExperienceOption, experineces } from "../../lib/constants";
+import { useDispatch } from "react-redux";
+import { setSelectedExperiences } from "../../redux/slices/filterSlice";
 
 const ExperienceFilter = () => {
+  const dispatch = useDispatch();
   const [selectExperience, setSelectExperience] = useState<ExperienceOption>();
 
   const handleChange = (value: ExperienceOption) => {
     setSelectExperience(value);
+    dispatch(setSelectedExperiences(value ? [value] : []));
   };
 
   return (

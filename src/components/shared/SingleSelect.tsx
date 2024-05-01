@@ -110,6 +110,8 @@ const SingleSelect: React.FC<GenericSelectProps> = ({
             }}
           />
         )}
+        <div className=" h-5 border-l-[1px] "></div>
+
         <IoIosArrowDown
           className={cn(
             "text-gray-400 size-4 transition-all duration-300 ease-in-out",

@@ -94,7 +94,7 @@ const GenericSelect: React.FC<GenericSelectProps> = ({
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-2 ml-3">
+      <div className="flex items-center gap-2 ml-3 h-full">
         {value.length > 0 && (
           <RxCross2
             className="text-gray-400 size-4 cursor-pointer hover:text-black"
@@ -104,6 +104,7 @@ const GenericSelect: React.FC<GenericSelectProps> = ({
             }}
           />
         )}
+        <div className=" h-5 border-l-[1px] "></div>
         <IoIosArrowDown
           className={cn(
             "text-gray-400 size-4 transition-all duration-300 ease-in-out",

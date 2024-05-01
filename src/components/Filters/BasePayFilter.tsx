@@ -1,11 +1,16 @@
 import { useState } from "react";
 import SingleSelect, { GenericOption } from "../shared/SingleSelect";
 import { basePays } from "../../lib/constants";
+import { useDispatch } from "react-redux";
+
+import { setSelectedBasePays } from "../../redux/slices/filterSlice";
 
 const BasePayFilter = () => {
+  const dispatch = useDispatch();
   const [selectBasePay, setSelectBasePay] = useState<GenericOption>();
   const handleChange = (value: GenericOption) => {
     setSelectBasePay(value);
+    dispatch(setSelectedBasePays(value ? [value as GenericOption] : []));
   };
 
   return (

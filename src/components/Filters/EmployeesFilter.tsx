@@ -1,20 +1,25 @@
 import { useState } from "react";
 import { EmployeeOption, employees } from "../../lib/constants";
-import GenericSelect, { GenericOption } from "../shared/GenericSelect";
+import GenericSelect from "../shared/GenericSelect";
+import { useDispatch } from "react-redux";
+import { setSelectedEmployees } from "../../redux/slices/filterSlice";
 
 const EmployeesFilter = () => {
-  const [selectedEmployeeOption, setSelectedEmployeeOption] = useState<
+  const dispatch = useDispatch();
+  const [selectedEmployeeOptions, setSelectedEmployeeOptions] = useState<
     EmployeeOption[]
   >([]);
 
-  const handleChange = (value: EmployeeOption[] | GenericOption[]) => {
-    setSelectedEmployeeOption(value as EmployeeOption[]);
+  const handleChange = (value: EmployeeOption[]) => {
+    setSelectedEmployeeOptions(value);
+    dispatch(setSelectedEmployees(value));
   };
+
   return (
     <GenericSelect
       options={employees}
       placeholder="Number of Employees"
-      value={selectedEmployeeOption}
+      value={selectedEmployeeOptions}
       onChange={handleChange}
       optionClassName="h-fit overflow-hidden"
     />
