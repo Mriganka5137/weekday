@@ -47,7 +47,7 @@ function App() {
       <div ref={ref} className="flex justify-center mb-20">
         {isFetchingNextPage && (
           <AiOutlineLoading3Quarters
-            className={`${isFetchingNextPage} && animate-spin text-slate-800 size-8`}
+            className={`${isFetchingNextPage} && animate-spin text-blue-800 size-8`}
           />
         )}
       </div>

@@ -10,7 +10,7 @@ const JobCard = ({ job }: JobCardProps) => {
   return (
     <div
       key={job.jdUid}
-      className="bg-white rounded-3xl  p-6 border shadow-lg  hover:scale-[1.02] transition-all duration-300 ease-in-out max-w-[480px] max-sm:p-3"
+      className="bg-white rounded-3xl  p-6 border shadow-lg  hover:scale-[1.02] transition-all duration-300 ease-in-out max-w-[480px] max-sm:p-3 relative"
     >
       <div className="flex w-fit rounded-2xl border p-2 gap-1 shadow-sm items-center">
         <BsHourglassSplit className="text-amber-700 size-3.5" />
@@ -24,7 +24,9 @@ const JobCard = ({ job }: JobCardProps) => {
           className="w-8 h-14  object-cover"
         />
         <div className="ml-3">
-          <div className=" text-gray-500 font-medium">XYZ technologies </div>
+          <div className=" text-gray-500 font-medium hover:underline cursor-pointer">
+            XYZ technologies{" "}
+          </div>
           <div className="text-lg capitalize">{job.jobRole}</div>
           <div className="capitalize text-sm font-sans">
             {job.location || "India"}
@@ -47,7 +49,7 @@ const JobCard = ({ job }: JobCardProps) => {
       </div>
       <Description jobDetailsFromCompany={job.jobDetailsFromCompany} />
 
-      <p className="mt-4 text-gray-500 font-medium tracking-wide">
+      <p className=" text-gray-500 font-medium tracking-wide">
         Minimum Experience
       </p>
       <p className=" font-light">{job.minExp || "1"} years</p>
