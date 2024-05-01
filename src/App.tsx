@@ -35,7 +35,7 @@ function App() {
     <div>{error.message}</div>
   ) : (
     <>
-      <div className=" p-6 gap-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-screen-2xl mx-auto">
+      <div className=" p-6 gap-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-screen-2xl mx-auto ">
         {jobs?.map((job: Job) => (
           <JobCard job={job} />
         ))}

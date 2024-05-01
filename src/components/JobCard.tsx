@@ -1,5 +1,7 @@
 import { BsHourglassSplit } from "react-icons/bs";
 import { Job } from "../types";
+import Description from "./Description";
+import { IoPersonCircle } from "react-icons/io5";
 
 interface JobCardProps {
   job: Job;
@@ -39,15 +41,22 @@ const JobCard = ({ job }: JobCardProps) => {
       <p className=" text-xl mt-2">About Company:</p>
       <div className=" h-[250px] overflow-hidden relative w-full">
         <p className="">{job.jobDetailsFromCompany}</p>
-        <div className="absolute w-full h-full bg-gradient-to-b from-transparent to-white to-95%% top-0 left-0"></div>
+        <div className="absolute w-full h-full bg-gradient-to-b from-transparent z-1 to-white to-95% top-0 left-0"></div>
       </div>
+      <Description jobDetailsFromCompany={job.jobDetailsFromCompany} />
 
-      <div>
-        {job.minJdSalary} - {job.maxJdSalary} {job.salaryCurrencyCode}
-      </div>
-      <a href={job.jdLink} target="_blank" rel="noreferrer">
-        View Job
-      </a>
+      <p className="mt-8 text-gray-500 font-medium tracking-wide">
+        Minimum Experience
+      </p>
+      <p className=" font-light">{job.minExp || "1"} years</p>
+
+      <button className=" w-full text-xl  bg-[#55EFC4] py-3 rounded-lg hover:bg-teal-500 transition-colors duration-300 ease-in-out mt-10">
+        ⚡️ Easy Apply
+      </button>
+      <button className=" w-full text-xl bg-[#4943DA] py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 ease-in-out mt-3 text-white bg-blue flex justify-center items-center gap-2">
+        <IoPersonCircle className="size-7 text-gray-100" />
+        Ask for referral
+      </button>
     </div>
   );
 };
