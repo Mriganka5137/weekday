@@ -16,7 +16,6 @@ function App() {
     hasNextPage,
     status,
   } = useInfiniteJobs();
-  console.log(data);
 
   useEffect(() => {
     if (inView) {
@@ -35,9 +34,9 @@ function App() {
     <div>{error.message}</div>
   ) : (
     <>
-      <div className=" p-6 gap-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-screen-2xl mx-auto ">
+      <div className=" p-5 grid grid-cols-1 md:grid-cols-2 md:gap-x-8 xl:grid-cols-3 xl:gap-x-20 max-w-screen-2xl mx-auto  gap-y-16 justify-items-center max-sm:p-3 max-sm:gap-y-8">
         {jobs?.map((job: Job) => (
-          <JobCard job={job} />
+          <JobCard job={job} key={job.jdUid} />
         ))}
         {!hasNextPage && !isFetchingNextPage && (
           <div>All jobs have been loaded.</div>

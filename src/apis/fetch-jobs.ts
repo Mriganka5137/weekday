@@ -7,7 +7,6 @@ export const fetchJobs = async ({ pageParam }: { pageParam: number }) => {
     offset: pageParam,
   });
   const data = response.data;
-  console.log(data);
   const nextPage = pageParam + limit;
   const hasNextPage = nextPage < 35291;
   return {

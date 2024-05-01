@@ -33,9 +33,9 @@ export default function Description({
     <div>
       <button
         onClick={handleOpen}
-        className="text-blue-500  text-lg  -mt-4 w-full text-center hover:underline"
+        className="text-blue-500  text-lg  w-full text-center  p-2 -mt-10 "
       >
-        Show More
+        View job
       </button>
       <Modal
         open={open}
