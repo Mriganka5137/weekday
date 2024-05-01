@@ -1,43 +1,21 @@
 import { useInView } from "react-intersection-observer";
-import { apiClient } from "./services/api-client";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 
-const fetchJobs = async ({ pageParam }: { pageParam: number }) => {
-  const limit = 10;
-  const response = await apiClient.post("", {
-    limit: 10,
-    offset: pageParam,
-  });
-  const data = response.data;
-  const nextPage = pageParam + limit;
-  const hasNextPage = nextPage < 35291;
-  return {
-    data: data,
-    currentPage: pageParam,
-    nextPage: nextPage,
-    hasNextPage: hasNextPage,
-  };
-};
+import { useEffect, useState } from "react";
+import { useInfiniteJobs } from "./hooks/useInfiniteJobs";
+import { Job } from "./types";
 
 function App() {
-  const {
-    data,
-    error,
-    status,
-    fetchNextPage,
-    isFetchingNextPage,
-    hasNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["jobs"],
-    queryFn: fetchJobs,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
-      return lastPage.hasNextPage ? lastPage.nextPage : undefined;
-    },
-  });
-
+  const [jobs, setJobs] = useState<Job[]>();
   const { ref, inView } = useInView();
+  const {
+    fetchNextPage,
+    data,
+    isFetchingNextPage,
+    error,
+    hasNextPage,
+    status,
+  } = useInfiniteJobs();
+  console.log(data);
 
   useEffect(() => {
     if (inView) {
@@ -45,31 +23,47 @@ function App() {
     }
   }, [fetchNextPage, inView]);
 
+  useEffect(() => {
+    const list = data?.pages.map((page) => page.data.jdList).flat();
+    setJobs(list);
+  }, [data]);
+
   return status === "pending" ? (
     <div>Loading...</div>
   ) : status === "error" ? (
     <div>{error.message}</div>
   ) : (
-    <div className="space-y-5 p-2">
-      {data.pages.map((page) => (
-        <div className="  flex flex-col gap-5 ">
-          {page.data.jdList.map((job) => (
-            <div
-              key={job.jdUid}
-              className="bg-gray-200 space-y-3 rounded-lg p-5"
-            >
-              <h1>{job.jobRole}</h1>
-              <p>{job.jdUid}</p>
-              <p>{job.jobDetailsFromCompany}</p>
+    <>
+      <div className=" p-6 gap-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-screen-2xl mx-auto">
+        {jobs?.map((job: Job) => (
+          <div key={job.jdUid} className="bg-gray-100 rounded-xl  p-10 border">
+            <div className="font-bold text-lg">{job.jobRole}</div>
+            <p>{job.jdUid}</p>
+            <div>{job.location}</div>
+            <div>
+              {job.minExp} - {job.maxExp} years
             </div>
-          ))}
-        </div>
-      ))}
-      {!hasNextPage && !isFetchingNextPage && (
-        <div>All jobs have been loaded.</div>
-      )}
-      <div ref={ref}>{isFetchingNextPage && "Loading..."}</div>
-    </div>
+            <div className="space-y-5 mt-5">
+              <p className=" line-clamp-6">{job.jobDetailsFromCompany}</p>
+              <p className="text-center underline text-blue-500">View More</p>
+            </div>
+
+            <div>
+              {job.minJdSalary} - {job.maxJdSalary} {job.salaryCurrencyCode}
+            </div>
+            <a href={job.jdLink} target="_blank" rel="noreferrer">
+              View Job
+            </a>
+          </div>
+        ))}
+        {!hasNextPage && !isFetchingNextPage && (
+          <div>All jobs have been loaded.</div>
+        )}
+      </div>
+      <div ref={ref} className="text-center">
+        {isFetchingNextPage && "Loading..."}
+      </div>
+    </>
   );
 }
 export default App;
