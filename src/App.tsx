@@ -10,10 +10,13 @@ const fetchJobs = async ({ pageParam }: { pageParam: number }) => {
     offset: pageParam,
   });
   const data = response.data;
+  const nextPage = pageParam + limit;
+  const hasNextPage = nextPage < 35291;
   return {
     data: data,
     currentPage: pageParam,
-    nextPage: pageParam + limit,
+    nextPage: nextPage,
+    hasNextPage: hasNextPage,
   };
 };
 
@@ -30,11 +33,9 @@ function App() {
     queryFn: fetchJobs,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
-      return lastPage.nextPage;
+      return lastPage.hasNextPage ? lastPage.nextPage : undefined;
     },
   });
-
-  console.log(data);
 
   const { ref, inView } = useInView();
 
