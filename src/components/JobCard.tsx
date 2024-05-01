@@ -1,7 +1,6 @@
 import { BsHourglassSplit } from "react-icons/bs";
 import { Job } from "../types";
 import Description from "./Description";
-import { IoPersonCircle } from "react-icons/io5";
 
 interface JobCardProps {
   job: Job;
