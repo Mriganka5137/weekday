@@ -5,6 +5,7 @@ import { useInfiniteJobs } from "./hooks/useInfiniteJobs";
 import { Job } from "./types";
 import JobCard from "./components/JobCard";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import FilterContainer from "./components/FilterContainer";
 
 function App() {
   const [jobs, setJobs] = useState<Job[]>();
@@ -34,8 +35,9 @@ function App() {
   ) : status === "error" ? (
     <div>{error.message}</div>
   ) : (
-    <>
-      <div className=" p-5 grid grid-cols-1 md:grid-cols-2 md:gap-x-8 xl:grid-cols-3 xl:gap-x-20 max-w-screen-2xl mx-auto  gap-y-16 justify-items-center max-sm:p-3 max-sm:gap-y-8 pb-10">
+    <div className=" p-5  max-w-screen-2xl mx-auto max-sm:p-3 space-y-10 ">
+      <FilterContainer />
+      <div className=" grid grid-cols-1 md:grid-cols-2 md:gap-x-8 xl:grid-cols-3 xl:gap-x-20  gap-y-16 justify-items-center  max-sm:gap-y-8 pb-10">
         {jobs?.map((job: Job) => (
           <JobCard job={job} key={job.jdUid} />
         ))}
@@ -51,7 +53,7 @@ function App() {
           />
         )}
       </div>
-    </>
+    </div>
   );
 }
 export default App;

@@ -30,7 +30,7 @@ export default function Description({
   };
 
   return (
-    <div>
+    <div className=" absolute left-1/2 -translate-x-1/2 top-2/3">
       <button
         onClick={handleOpen}
         className="text-blue-500  text-lg  w-full text-center  p-2 -mt-10 "
