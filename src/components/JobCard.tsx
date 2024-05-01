@@ -36,7 +36,7 @@ const JobCard = ({ job }: JobCardProps) => {
       <div className="mt-3">
         <p className="  text-gray-600 tracking-wider text-base font-light">
           Estimated Salary: {job.salaryCurrencyCode || "₹"}
-          {job.minJdSalary || "20"} - {job.maxJdSalary || "30"} LPA ✅
+          {job.minJdSalary || "20"} - {job.maxJdSalary || "30"} ✅
         </p>
       </div>
       <p className=" text-xl mt-2">About Company:</p>

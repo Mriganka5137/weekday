@@ -13,19 +13,21 @@ export interface GenericOption {
 interface GenericSelectProps {
   options: GenericOption[];
   placeholder: string;
-  value: GenericOption[];
-  onChange: (value: GenericOption[]) => void;
+  value: GenericOption | null;
+  onChange: (value: GenericOption | null) => void;
   optionClassName?: string;
   selectClassName?: string;
+  isSingle?: boolean; // New prop to control selection mode
 }
 
-const GenericSelect: React.FC<GenericSelectProps> = ({
+const SingleSelect: React.FC<GenericSelectProps> = ({
   options,
   placeholder,
   value,
   onChange,
   optionClassName,
   selectClassName,
+  isSingle = false, // Default to multi-select mode
 }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -48,54 +50,58 @@ const GenericSelect: React.FC<GenericSelectProps> = ({
   }, []);
 
   const handleOptionSelect = (option: GenericOption) => {
-    if (value.some((item) => item.id === option.id)) {
-      onChange(value.filter((item) => item.id !== option.id));
+    if (isSingle) {
+      // Single select mode
+      onChange(value?.id === option.id ? null : option);
+      setOpen(false);
     } else {
-      onChange([...value, option]);
+      // Multi-select mode
+      if (value && value.id === option.id) {
+        onChange(null);
+      } else {
+        onChange(option);
+      }
+      setOpen(false);
     }
-    setOpen(false);
   };
 
   const handleClearAll = () => {
-    onChange([]);
+    onChange(null);
   };
 
   return (
     <div
       className={cn(
-        "min-w-40 max-w-fit border min-h-10 rounded px-2 py-2 text-xs flex items-center h-fit justify-between relative transition-all duration-300 ease-in-out cursor-pointer",
+        "min-w-40 max-w-64 border min-h-10 rounded px-2 py-2 text-xs flex items-center h-fit justify-between relative transition-all duration-300 ease-in-out cursor-pointer",
         selectClassName
       )}
       onClick={handleOpen}
     >
-      {value.length === 0 && (
-        <span className="text-gray-400">{placeholder}</span>
-      )}
-      {value.length > 0 && (
+      {!value && <span className="text-gray-400">{placeholder}</span>}
+      {value && (
         <div className=" absolute -top-4 left-0 text-[10px] font-semibold">
           {placeholder}
         </div>
       )}
-
       <div className="flex gap-1 text-[9px] flex-wrap">
-        {value.map((option) => (
+        {value && (
           <div
-            key={option.id}
+            key={value.id}
             className="bg-slate-200 text-black w-fit rounded-sm flex items-center justify-between gap-1 font-light pl-1"
           >
-            {option.name}
+            {value.name}
             <RxCross2
               className="text-black cursor-pointer h-full w-4 p-0.5 hover:bg-red-300"
               onClick={(e) => {
                 e.stopPropagation();
-                handleOptionSelect(option);
+                handleOptionSelect(value);
               }}
             />
           </div>
-        ))}
+        )}
       </div>
       <div className="flex items-center gap-2 ml-3">
-        {value.length > 0 && (
+        {value && (
           <RxCross2
             className="text-gray-400 size-4 cursor-pointer hover:text-black"
             onClick={(e) => {
@@ -111,7 +117,6 @@ const GenericSelect: React.FC<GenericSelectProps> = ({
           )}
         />
       </div>
-
       {/* Options */}
       {open && (
         <div
@@ -127,7 +132,7 @@ const GenericSelect: React.FC<GenericSelectProps> = ({
               className="text-black w-full px-2 py-1 rounded-sm hover:bg-slate-200"
               onClick={() => handleOptionSelect(option)}
             >
-              {value.includes(option) ? null : option.name}
+              {option.name}
             </p>
           ))}
         </div>
@@ -136,4 +141,4 @@ const GenericSelect: React.FC<GenericSelectProps> = ({
   );
 };
 
-export default GenericSelect;
+export default SingleSelect;
