@@ -25,6 +25,10 @@ const initialState: FilterState = {
   searchCompanyLocation: "",
 };
 
+//jsdoc
+/**
+ * @returns {FilterState} - Filter state
+ */
 const filterSlice = createSlice({
   name: "filters",
   initialState,
