@@ -70,16 +70,12 @@ export const filterByExperience = (
 ): Job[] => {
   if (selectedExperiences.length === 0) return jbList;
 
-  const experienceValues = selectedExperiences.map(
-    (experience) => experience.name
-  );
+  const experienceValues = selectedExperiences[0];
+  console.log(experienceValues);
 
   return jbList.filter((job) => {
-    const { minExp, maxExp } = job;
-    return (
-      experienceValues.includes(minExp?.toString()) ||
-      experienceValues.includes(maxExp?.toString())
-    );
+    const { maxExp } = job;
+    return maxExp <= parseInt(experienceValues.name);
   });
 };
 
@@ -147,14 +143,11 @@ export const filterByBasePay = (
 ): Job[] => {
   if (selectedBasePays.length === 0) return jbList;
 
-  // const basePayRanges = selectedBasePays.map(
-  //   (basePay) => basePay.name.split("L")[0]
-  // );
-  const basePay = selectedBasePays[0].name.split("L")[0];
+  const basePay = parseInt(selectedBasePays[0].name.split("L")[0]);
+  console.log(basePay);
 
   return jbList.filter((job) => {
-    const { minJdSalary } = job;
-    return minJdSalary >= parseInt(basePay);
+    return basePay >= job.minJdSalary && basePay <= job.maxJdSalary;
   });
 };
 
