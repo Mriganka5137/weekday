@@ -8,7 +8,7 @@ export const fetchJobs = async ({ pageParam }: { pageParam: number }) => {
   });
   const data = response.data;
   const nextPage = pageParam + limit;
-  const hasNextPage = nextPage < 35291;
+  const hasNextPage = nextPage < 11657;
   return {
     data: data,
     currentPage: pageParam,

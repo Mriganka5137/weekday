@@ -13,6 +13,7 @@ interface FilterState {
   selectedExperiences: ExperienceOption[];
   selectedWorkTypes: WorkTypeOption[];
   selectedBasePays: BasePayOption[];
+  searchCompanyLocation: string;
 }
 
 const initialState: FilterState = {
@@ -21,6 +22,7 @@ const initialState: FilterState = {
   selectedExperiences: [],
   selectedWorkTypes: [],
   selectedBasePays: [],
+  searchCompanyLocation: "",
 };
 
 const filterSlice = createSlice({
@@ -45,6 +47,10 @@ const filterSlice = createSlice({
     setSelectedBasePays: (state, action: PayloadAction<BasePayOption[]>) => {
       state.selectedBasePays = action.payload;
     },
+
+    setSearchCompanyLocation: (state, action: PayloadAction<string>) => {
+      state.searchCompanyLocation = action.payload;
+    },
   },
 });
 
@@ -54,6 +60,7 @@ export const {
   setSelectedExperiences,
   setSelectedWorkTypes,
   setSelectedBasePays,
+  setSearchCompanyLocation,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

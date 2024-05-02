@@ -11,6 +11,7 @@ import {
   filterByBasePay,
   filterByExperience,
   filterByRoles,
+  filterBySearchCompanyLocation,
   filterByWorkType,
 } from "./lib/utils";
 import { VscSearchStop } from "react-icons/vsc";
@@ -23,6 +24,7 @@ function App() {
     selectedExperiences,
     selectedRoles,
     selectedWorkTypes,
+    searchCompanyLocation,
   } = useSelector((state: RootState) => state.filters);
 
   const { ref, inView } = useInView();
@@ -63,6 +65,11 @@ function App() {
       allJobs = filterByWorkType(allJobs, selectedWorkTypes);
     }
 
+    // Filter by Search Company Location
+    if (searchCompanyLocation) {
+      allJobs = filterBySearchCompanyLocation(allJobs, searchCompanyLocation);
+    }
+
     setFilteredJobs(allJobs);
   }, [
     data,
@@ -70,6 +77,7 @@ function App() {
     selectedExperiences,
     selectedRoles,
     selectedWorkTypes,
+    searchCompanyLocation,
   ]);
 
   return status === "pending" ? (

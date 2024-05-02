@@ -3,7 +3,6 @@ import clsx, { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import {
   BasePayOption,
-  EmployeeOption,
   ExperienceOption,
   Role,
   WorkTypeOption,
@@ -36,22 +35,22 @@ export const filterByRoles = (jbList: any[], selectedRoles: Role[]): Job[] => {
 };
 
 // Filter by employee count (multiple choice)
-export const filterByEmployees = (
-  jbList: Job[],
-  selectedEmployees: EmployeeOption[]
-) => {
-  // if (selectedEmployees.length === 0) return jbList;
-  // const employeeRanges = selectedEmployees.map((employee) =>
-  //   employee.name.split("-")
-  // );
-  // return jbList.filter((job) => {
-  //   const { employeeCount } = job;
-  //   return employeeRanges.some(
-  //     ([min, max]) =>
-  //       employeeCount >= parseInt(min) && employeeCount <= parseInt(max)
-  //   );
-  // });
-};
+// export const filterByEmployees = (
+//   jbList: Job[],
+//   selectedEmployees: EmployeeOption[]
+// ) => {
+//   // if (selectedEmployees.length === 0) return jbList;
+//   // const employeeRanges = selectedEmployees.map((employee) =>
+//   //   employee.name.split("-")
+//   // );
+//   // return jbList.filter((job) => {
+//   //   const { employeeCount } = job;
+//   //   return employeeRanges.some(
+//   //     ([min, max]) =>
+//   //       employeeCount >= parseInt(min) && employeeCount <= parseInt(max)
+//   //   );
+//   // });
+// };
 
 /**
  * filterByExperience
@@ -148,17 +147,37 @@ export const filterByBasePay = (
 ): Job[] => {
   if (selectedBasePays.length === 0) return jbList;
 
-  const basePayRanges = selectedBasePays.map(
-    (basePay) => basePay.name.split("L")[0]
-  );
+  // const basePayRanges = selectedBasePays.map(
+  //   (basePay) => basePay.name.split("L")[0]
+  // );
+  const basePay = selectedBasePays[0].name.split("L")[0];
 
   return jbList.filter((job) => {
-    const { minJdSalary, maxJdSalary } = job;
-    return basePayRanges.some(
-      (range) =>
-        minJdSalary >= parseInt(range) && maxJdSalary <= parseInt(range)
-    );
+    const { minJdSalary } = job;
+    return minJdSalary >= parseInt(basePay);
   });
+};
+
+// Filter by search company location
+/**
+ * filterBySearchCompanyLocation
+ *
+ * Filter jobs by search company location
+ * @param {Job[]} jbList - List of jobs
+ * @param {string} location - Location to search
+ * @returns {Job[]} - Filtered list of jobs
+ *
+ * @example
+ *
+ * filterBySearchCompanyLocation(jbList, location)
+ */
+export const filterBySearchCompanyLocation = (
+  jbList: Job[],
+  location: string
+) => {
+  return jbList.filter((job) =>
+    job.location.toLowerCase().includes(location.toLowerCase())
+  );
 };
 
 // Apply all filters
