@@ -14,8 +14,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Filter by roles (multiple choice)
-export const filterByRoles = (jbList: any[], selectedRoles: Role[]) => {
+/**
+ * filterByRoles
+ *
+ * Filter jobs by roles
+ * @param {Job[]} jbList - List of jobs
+ * @param {Role[]} selectedRoles - Selected roles
+ * @returns {Job[]} - Filtered list of jobs
+ *
+ * @example
+ *
+ * filterByRoles(jbList, selectedRoles)
+ */
+
+export const filterByRoles = (jbList: any[], selectedRoles: Role[]): Job[] => {
   if (selectedRoles.length === 0) return jbList;
 
   return jbList.filter((job) =>
@@ -41,11 +53,22 @@ export const filterByEmployees = (
   // });
 };
 
-// Filter by experience (multiple choice)
+/**
+ * filterByExperience
+ *
+ * Filter jobs by experience
+ * @param {Job[]} jbList - List of jobs
+ * @param {ExperienceOption[]} selectedExperiences - Selected experience options
+ * @returns {Job[]} - Filtered list of jobs
+ *
+ * @example
+ *
+ * filterByExperience(jbList, selectedExperiences)
+ */
 export const filterByExperience = (
   jbList: Job[],
   selectedExperiences: ExperienceOption[]
-) => {
+): Job[] => {
   if (selectedExperiences.length === 0) return jbList;
 
   const experienceValues = selectedExperiences.map(
@@ -61,13 +84,23 @@ export const filterByExperience = (
   });
 };
 
-// Filter by work type (multiple choice)
+/**
+ * filterByWorkType
+ *
+ * Filter jobs by work type
+ * @param {Job[]} jbList - List of jobs
+ * @param {WorkTypeOption[]} selectedWorkTypes - Selected work type options
+ * @returns {Job[]} - Filtered list of jobs
+ *
+ * @example
+ *
+ * filterByWorkType(jbList, selectedWorkTypes)
+ */
 
-// Filter by work type (multiple choice)
 export const filterByWorkType = (
   jbList: Job[],
   selectedWorkTypes: WorkTypeOption[]
-) => {
+): Job[] => {
   if (selectedWorkTypes.length === 0) return jbList;
 
   return jbList.filter((job) => {
@@ -97,11 +130,22 @@ export const filterByWorkType = (
   });
 };
 
-// Filter by base pay (multiple choice)
+/**
+ * filterByBasePay
+ *
+ * Filter jobs by base pay
+ * @param {Job[]} jbList - List of jobs
+ * @param {BasePayOption[]} selectedBasePays - Selected base pay options
+ * @returns {Job[]} - Filtered list of jobs
+ *
+ * @example
+ *
+ * filterByBasePay(jbList, selectedBasePays)
+ */
 export const filterByBasePay = (
   jbList: Job[],
   selectedBasePays: BasePayOption[]
-) => {
+): Job[] => {
   if (selectedBasePays.length === 0) return jbList;
 
   const basePayRanges = selectedBasePays.map(
@@ -121,7 +165,6 @@ export const filterByBasePay = (
 export const applyFilters = (
   jbList: any[],
   selectedRoles: Role[],
-  selectedEmployees: EmployeeOption[],
   selectedExperiences: ExperienceOption[],
   selectedWorkTypes: WorkTypeOption[],
   selectedBasePays: BasePayOption[]
@@ -129,7 +172,6 @@ export const applyFilters = (
   let filteredJobs = jbList;
 
   filteredJobs = filterByRoles(filteredJobs, selectedRoles);
-  filteredJobs = filterByEmployees(filteredJobs, selectedEmployees);
   filteredJobs = filterByExperience(filteredJobs, selectedExperiences);
   filteredJobs = filterByWorkType(filteredJobs, selectedWorkTypes);
   filteredJobs = filterByBasePay(filteredJobs, selectedBasePays);

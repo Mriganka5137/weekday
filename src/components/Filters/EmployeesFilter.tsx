@@ -4,7 +4,17 @@ import GenericSelect from "../shared/GenericSelect";
 import { useDispatch } from "react-redux";
 import { setSelectedEmployees } from "../../redux/slices/filterSlice";
 
-const EmployeesFilter = () => {
+/**
+ * EmployeesFilter
+ *
+ * Component to filter jobs by number of employees
+ * @returns {JSX.Element} - JSX Element containing the select input to filter by number of employees
+ *
+ * @example
+ *
+ * <EmployeesFilter />
+ */
+const EmployeesFilter = (): JSX.Element => {
   const dispatch = useDispatch();
   const [selectedEmployeeOptions, setSelectedEmployeeOptions] = useState<
     EmployeeOption[]

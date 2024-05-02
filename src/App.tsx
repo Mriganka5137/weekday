@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "./store";
 import {
   filterByBasePay,
-  filterByEmployees,
   filterByExperience,
   filterByRoles,
   filterByWorkType,
@@ -21,7 +20,6 @@ function App() {
   const [filteredJobs, setFilteredJobs] = useState<Job[]>();
   const {
     selectedBasePays,
-    selectedEmployees,
     selectedExperiences,
     selectedRoles,
     selectedWorkTypes,

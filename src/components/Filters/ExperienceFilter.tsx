@@ -4,7 +4,17 @@ import { ExperienceOption, experineces } from "../../lib/constants";
 import { useDispatch } from "react-redux";
 import { setSelectedExperiences } from "../../redux/slices/filterSlice";
 
-const ExperienceFilter = () => {
+/**
+ * ExperienceFilter
+ *
+ * Component to filter jobs by experience
+ * @returns {JSX.Element} - JSX Element containing the select input to filter by experience
+ *
+ * @example
+ *
+ * <ExperienceFilter />
+ */
+const ExperienceFilter = (): JSX.Element => {
   const dispatch = useDispatch();
   const [selectExperience, setSelectExperience] = useState<ExperienceOption>();
 

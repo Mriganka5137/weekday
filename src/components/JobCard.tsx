@@ -1,12 +1,25 @@
 import { BsHourglassSplit } from "react-icons/bs";
 import { Job } from "../types";
 import Description from "./Description";
+import { ReactElement } from "react";
 
 interface JobCardProps {
   job: Job;
 }
 
-const JobCard = ({ job }: JobCardProps) => {
+// jsdoc
+/**
+ * JobCard
+ *
+ * Component to render job card
+ * @param {Job} job - Job object
+ * @returns {ReactElement} - React component
+ *
+ * @example
+ *
+ * <JobCard job={job} />
+ */
+const JobCard = ({ job }: JobCardProps): ReactElement => {
   return (
     <div
       key={job.jdUid}
@@ -16,7 +29,6 @@ const JobCard = ({ job }: JobCardProps) => {
         <BsHourglassSplit className="text-amber-700 size-3.5" />
         <p className=" text-xs">Posted 10 days ago</p>
       </div>
-
       <div className=" flex mt-5">
         <img
           src={`https://source.unsplash.com/random/?company,logo,${job.jdUid}`}

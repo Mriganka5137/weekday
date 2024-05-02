@@ -5,7 +5,19 @@ import { useDispatch } from "react-redux";
 import { setSelectedRoles } from "../../redux/slices/filterSlice";
 import { UnknownAction } from "@reduxjs/toolkit";
 
-const RoleFilter = () => {
+// jsdoc
+
+/**
+ * RoleFilter
+ *
+ * Component to filter jobs by roles
+ * @returns {JSX.Element} - JSX Element containing the select input to filter by roles
+ *
+ * @example
+ *
+ * <RoleFilter />
+ */
+const RoleFilter = (): JSX.Element => {
   const dispatch = useDispatch();
   const [selectedRoles, setSelectedRolesState] = useState<Role[]>([]);
 
