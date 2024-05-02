@@ -28,19 +28,17 @@ export const filterByEmployees = (
   jbList: Job[],
   selectedEmployees: EmployeeOption[]
 ) => {
-  if (selectedEmployees.length === 0) return jbList;
-
-  const employeeRanges = selectedEmployees.map((employee) =>
-    employee.name.split("-")
-  );
-
-  return jbList.filter((job) => {
-    const { employeeCount } = job;
-    return employeeRanges.some(
-      ([min, max]) =>
-        employeeCount >= parseInt(min) && employeeCount <= parseInt(max)
-    );
-  });
+  // if (selectedEmployees.length === 0) return jbList;
+  // const employeeRanges = selectedEmployees.map((employee) =>
+  //   employee.name.split("-")
+  // );
+  // return jbList.filter((job) => {
+  //   const { employeeCount } = job;
+  //   return employeeRanges.some(
+  //     ([min, max]) =>
+  //       employeeCount >= parseInt(min) && employeeCount <= parseInt(max)
+  //   );
+  // });
 };
 
 // Filter by experience (multiple choice)
@@ -64,17 +62,39 @@ export const filterByExperience = (
 };
 
 // Filter by work type (multiple choice)
+
+// Filter by work type (multiple choice)
 export const filterByWorkType = (
   jbList: Job[],
   selectedWorkTypes: WorkTypeOption[]
 ) => {
   if (selectedWorkTypes.length === 0) return jbList;
 
-  return jbList.filter((job) =>
-    selectedWorkTypes.some((workType) =>
-      job.workType.includes(workType.name.toLowerCase())
-    )
-  );
+  return jbList.filter((job) => {
+    const isRemote = selectedWorkTypes.some(
+      (workType) => workType.name.toLowerCase() === "remote"
+    );
+    const isInOffice = selectedWorkTypes.some(
+      (workType) => workType.name.toLowerCase() === "inoffice"
+    );
+    const isHybrid = selectedWorkTypes.some(
+      (workType) => workType.name.toLowerCase() === "hybrid"
+    );
+
+    const locationLower = job.location.toLowerCase();
+
+    if (isRemote) {
+      return locationLower.includes("remote");
+    } else if (isInOffice) {
+      return (
+        !locationLower.includes("remote") && !locationLower.includes("hybrid")
+      );
+    } else if (isHybrid) {
+      return locationLower.includes("hybrid");
+    }
+
+    return false; // Return no jobs if none of the selected work types match
+  });
 };
 
 // Filter by base pay (multiple choice)

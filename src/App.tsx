@@ -14,6 +14,8 @@ import {
   filterByRoles,
   filterByWorkType,
 } from "./lib/utils";
+import { VscSearchStop } from "react-icons/vsc";
+import { TbFaceIdError } from "react-icons/tb";
 
 function App() {
   const [filteredJobs, setFilteredJobs] = useState<Job[]>();
@@ -26,14 +28,8 @@ function App() {
   } = useSelector((state: RootState) => state.filters);
 
   const { ref, inView } = useInView();
-  const {
-    fetchNextPage,
-    data,
-    isFetchingNextPage,
-    error,
-    hasNextPage,
-    status,
-  } = useInfiniteJobs();
+  const { fetchNextPage, data, isFetchingNextPage, hasNextPage, status } =
+    useInfiniteJobs();
 
   useEffect(() => {
     if (inView) {
@@ -65,12 +61,18 @@ function App() {
     }
 
     // Filter by Work Types
-    // if (selectedWorkTypes && selectedWorkTypes.length > 0) {
-    //   allJobs = filterByWorkType(allJobs, selectedWorkTypes);
-    // }
+    if (selectedWorkTypes && selectedWorkTypes.length > 0) {
+      allJobs = filterByWorkType(allJobs, selectedWorkTypes);
+    }
 
     setFilteredJobs(allJobs);
-  }, [data, selectedBasePays, selectedExperiences, selectedRoles]);
+  }, [
+    data,
+    selectedBasePays,
+    selectedExperiences,
+    selectedRoles,
+    selectedWorkTypes,
+  ]);
 
   return status === "pending" ? (
     <div className=" flex justify-center items-center w-full h-screen">
@@ -79,20 +81,33 @@ function App() {
       />
     </div>
   ) : status === "error" ? (
-    <div>{error.message}</div>
+    <div className=" flex justify-center items-center w-full h-screen flex-col ">
+      <TbFaceIdError className=" size-20" />
+      <p className="text-gray-500 text-xl mt-5">An error occurred.</p>
+    </div>
   ) : (
-    <div className=" p-5  max-w-screen-2xl mx-auto max-sm:p-3 space-y-10 ">
+    <div className=" p-5  max-w-screen-2xl mx-auto max-sm:p-3 space-y-10 pb-20 ">
       <FilterContainer />
-      <div className=" grid grid-cols-1 md:grid-cols-2 md:gap-x-8 xl:grid-cols-3 xl:gap-x-20  gap-y-16 justify-items-center  max-sm:gap-y-8 pb-10 ">
-        {filteredJobs?.map((job: Job) => (
-          <JobCard job={job} key={job.jdUid} />
-        ))}
-        {!hasNextPage && !isFetchingNextPage && (
-          <div>All jobs have been loaded.</div>
-        )}
-      </div>
+      {filteredJobs?.length === 0 ? (
+        <div className="flex flex-col items-center justify-center w-full h-screen">
+          <VscSearchStop className=" size-20" />
+          <p className="text-gray-500 text-xl mt-5">
+            No Jobs available for this category at the moment.
+          </p>
+        </div>
+      ) : (
+        <div className=" grid grid-cols-1 md:grid-cols-2 md:gap-x-8 xl:grid-cols-3 xl:gap-x-20 gap-y-16 justify-items-center max-sm:gap-y-8 pb-10 ">
+          {filteredJobs?.map((job: Job) => (
+            <JobCard job={job} key={job.jdUid} />
+          ))}
+          {!hasNextPage && !isFetchingNextPage && (
+            <div>All jobs have been loaded.</div>
+          )}
+        </div>
+      )}
 
-      <div ref={ref} className="flex justify-center mb-20">
+      <div ref={ref} className="flex justify-center ">
+        <hr />
         {isFetchingNextPage && (
           <AiOutlineLoading3Quarters
             className={`${isFetchingNextPage} && animate-spin text-blue-800 size-8`}
