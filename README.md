@@ -1,30 +1,44 @@
-# React + TypeScript + Vite
+# Weekday : Find jobs via Weekday (YC W21)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Setup:
 
-Currently, two official plugins are available:
+1. Clone the repository
+2. Run `npm install` to install the dependencies
+3. Run `npm start` to start the server
+4. Open `http://localhost:5173` in your browser
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Structure:
 
-## Expanding the ESLint configuration
+- `src/` contains the source code
+- `src/components` contains the React components
+- `src/hooks` contains the custom hooks
+- `src/apis` contains the API functions
+- `src/lib/utils.ts` contains the utility functions and filtering logic
+- `src/lib/constants.ts` contains all the constants used in the project
+- `src/types` contains all the types used in the project
+- `src/services/api-client.ts` contains the axios instance
+- `src/redux` contains the redux store, actions, reducers, and selectors
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features:
 
-- Configure the top-level `parserOptions` property like this:
+- Filter jobs by roles: users can select multiple roles to filter the jobs
+- Search by job location: users can search for jobs by location
+- Filter jobs by Minimum Experience: users can filter the jobs by minimum experience required
+- Filter jobs by Job Type: Remote, Hybrid, or Onsite
+- Filter jobs by minimum base salary
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Tech Stack:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- React
+- Redux Toolkit
+- TypeScript
+- Axios
+- Material-UI
+- TanStack/react-query
+- React Icons
+
+## Custom Components:
+
+- `GenericSelect` - A generic select component that can be used to render a select dropdown with custom styles according to the design of the application
+- `JobCard` - A card component that displays the job details
+- `SingleSelect` - A single select component that can be used to render a select dropdown with custom styles according to the design of the application
